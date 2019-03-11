@@ -1,6 +1,6 @@
 /** User class for message.ly */
 const bcrypt = require("bcrypt");
-const db = require("client");
+const db = require("../db");
 
 
 /** User of the site. */
