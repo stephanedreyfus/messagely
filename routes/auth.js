@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
-const   { SECRET_KEY,
-    BCRYPT_WORK_ROUNDS,} 
-  = require("../config");
+const  { SECRET_KEY } = require("../config");
+// const  SECRET_KEY = require("../config").SECRET_KEY;
+
+const ExpressError = require("./expressError");
 
 const Router = require("express").Router;
 const User = require("../models/user");
@@ -22,7 +23,7 @@ router.post("/login", async function(req, res, next) {
             let token = jwt.sign({ username }, SECRET_KEY);
             return res.json({token});
         }
-        throw new ExpressError("Invalid username/password",400);
+        throw new ExpressError("Invalid username/password",401);
     } catch (err) {
       return next(err);
     }
