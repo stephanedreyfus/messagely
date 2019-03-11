@@ -46,7 +46,19 @@ class User {
 
   /** Update last_login_at for user */
 
-  static async updateLoginTimestamp(username) { }
+  static async updateLoginTimestamp(username) { 
+
+    let result = await db.query(
+        `UPDATE users 
+          SET last_login_at=current_timestamp
+          WHERE username=$1
+          RETURNING username`,
+          [username]);
+          
+    if (!result.rows[0]) {
+      throw new Error(`User ${username} not found`)
+    }
+  }
 
   /** All: basic info on all users:
    * [{username, first_name, last_name}, ...] */
