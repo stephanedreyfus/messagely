@@ -54,7 +54,7 @@ class User {
           WHERE username=$1
           RETURNING username`,
           [username]);
-          
+
     if (!result.rows[0]) {
       throw new Error(`User ${username} not found`)
     }
@@ -63,7 +63,17 @@ class User {
   /** All: basic info on all users:
    * [{username, first_name, last_name}, ...] */
 
-  static async all() { }
+  static async all() {
+    const result = await db.query(
+      `SELECT
+        username, 
+        first_name, 
+        last_name,
+      FROM users`);
+
+    return result.rows;
+
+   }
 
   /** Get: get user by username
    *
