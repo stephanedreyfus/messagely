@@ -37,14 +37,19 @@ router.post("/login", async function(req, res, next) {
 
 router.post("/register", async function(req, res, next) {
     try {
-        const { username, password } = req.body;
-        if (await User.authenticate(username, password)) {
-            await User.updateLoginTimestamp(username);
+        const { username, password, first_name, last_name, phone } = req.body;
+        const user = User.register(
+            username,
+            password,
+            first_name,
+            last_name,
+            phone);
+
+        if (user) {
             let token = jwt.sign({ username }, SECRET_KEY);
             return res.json({token});
         }
-        throw new ExpressError("Invalid username/password",400);
     } catch (err) {
       return next(err);
     }
-  }); 
+  });
