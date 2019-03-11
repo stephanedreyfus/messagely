@@ -37,19 +37,14 @@ router.post("/login", async function(req, res, next) {
 
 router.post("/register", async function(req, res, next) {
     try {
-        const { username, password, first_name, last_name, phone } = req.body;
-        const user = User.register(
-            username,
-            password,
-            first_name,
-            last_name,
-            phone);
+        // const { username, password, first_name, last_name, phone } = req.body;
+        const { username } = await User.register(req.body);
+        let token = jwt.sign({ username }, SECRET_KEY);
 
-        if (user) {
-            let token = jwt.sign({ username }, SECRET_KEY);
-            return res.json({token});
-        }
+        return res.json({token});
     } catch (err) {
       return next(err);
     }
   });
+
+module.exports = router;
