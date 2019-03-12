@@ -70,9 +70,7 @@ class Message {
 
     let m = result.rows[0];
 
-    // if (!m) {
-    //   throw { message: `No such message: ${id}`, status: 404 };
-    // }
+    if (!m) return;
 
     return {
       id: m.id,

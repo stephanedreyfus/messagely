@@ -22,10 +22,9 @@ router.get("/:id",
     async function (req, res, next){
         let id = req.params.id;
         try {
-            debugger
             let message = await Message.getMessage(id);
 
-            if (!message.id) {
+            if (!message) {
                 throw { message: `No such message: ${id}`, status: 404 };
             }
             return res.json({ message });
