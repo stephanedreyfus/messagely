@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const  { SECRET_KEY } = require("../config");
-const ExpressError = require("./expressError");
+const ExpressError = require("../expressError");
 const Router = require("express").Router;
 const User = require("../models/user");
 const { ensureLoggedIn,
@@ -15,6 +15,7 @@ const router = new Router();
 router.get("/",
     ensureLoggedIn,
     async function (req, res, next){
+        debugger
     try {
         let users = await User.all();
         return res.json(users);
