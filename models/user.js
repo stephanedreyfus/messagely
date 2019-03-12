@@ -85,7 +85,7 @@ class User {
    *          join_at,
    *          last_login_at } */
 
-  static async get(username) {
+  static async getUser(username) {
     const result = await db.query(
       `SELECT
         username,
@@ -113,7 +113,29 @@ class User {
    *   {username, first_name, last_name, phone}
    */
 
-  static async messagesFrom(username) { }
+  static async messagesFrom(username) { 
+
+    const result = await db.query(
+      `SELECT 
+        m.id,
+        m.to_username,
+        f.first_name AS from_first_name,
+        f.last_name AS from_last_name,
+        f.phone AS from_phone,
+        m.body,
+        m.sent_at,
+        m.read_at
+      FROM messages AS m
+        JOIN users AS f ON m.from_username = f.username
+      WHERE f.username = $1`,
+      [username]);
+
+    if (!result.rows[0]) {
+      throw new Error(`User ${username} not found`);
+    }
+
+    return result.rows;
+  }
 
   /** Return messages to this user.
    *
@@ -123,7 +145,28 @@ class User {
    *   {id, first_name, last_name, phone}
    */
 
-  static async messagesTo(username) { }
+  static async messagesTo(username) { 
+    const result = await db.query(
+      `SELECT 
+        m.id,
+        m.from_username,
+        t.first_name AS from_first_name,
+        t.last_name AS from_last_name,
+        t.phone AS from_phone,
+        m.body,
+        m.sent_at,
+        m.read_at
+      FROM messages AS m
+        JOIN users AS t ON m.to_username = t.username
+      WHERE t.username = $1`,
+      [username]);
+
+    if (!result.rows) {
+      throw new Error(`User ${username} not found`);
+    }
+
+    return result.rows;
+  }
 }
 
 
