@@ -1,3 +1,10 @@
+const Router = require("express").Router;
+const Message = require("../models/message");
+const { ensureLoggedIn,
+        ensureCorrectUser } = require("../middleware/auth");
+
+const router = new Router();
+
 /** GET /:id - get detail of message.
  *
  * => {message: {id,
@@ -10,6 +17,23 @@
  * Make sure that the currently-logged-in users is either the to or from user.
  *
  **/
+router.get("/:id",
+    ensureLoggedIn,
+    async function (req, res, next){
+        let id = req.params.id;
+        try {
+            debugger
+            let message = await Message.getMessage(id);
+
+            if (!message.id) {
+                throw { message: `No such message: ${id}`, status: 404 };
+            }
+            return res.json({ message });
+
+        } catch (err) {
+            return next(err);
+        }
+});
 
 
 /** POST / - post message.

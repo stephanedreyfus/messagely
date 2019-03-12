@@ -48,7 +48,7 @@ class Message {
    * both to_user and from_user = {username, first_name, last_name, phone}
    */
 
-  static async get(id) {
+  static async getMessage(id) {
     const result = await db.query(
         `SELECT m.id,
                 m.from_username,
@@ -70,9 +70,9 @@ class Message {
 
     let m = result.rows[0];
 
-    if (!m) {
-      throw { message: `No such message: ${id}`, status: 404 };
-    }
+    // if (!m) {
+    //   throw { message: `No such message: ${id}`, status: 404 };
+    // }
 
     return {
       id: m.id,

@@ -1,6 +1,3 @@
-const jwt = require("jsonwebtoken");
-const  { SECRET_KEY } = require("../config");
-const ExpressError = require("../expressError");
 const Router = require("express").Router;
 const User = require("../models/user");
 const { ensureLoggedIn,
@@ -31,6 +28,7 @@ router.get("/",
  **/
 router.get("/:username",
     ensureLoggedIn,
+    ensureCorrectUser,
     async function (req, res, next){
         let username = req.params.username;
         try {

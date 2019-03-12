@@ -1,9 +1,6 @@
 const jwt = require("jsonwebtoken");
 const  { SECRET_KEY } = require("../config");
-// const  SECRET_KEY = require("../config").SECRET_KEY;
-
 const ExpressError = require("../expressError");
-
 const Router = require("express").Router;
 const User = require("../models/user");
 
