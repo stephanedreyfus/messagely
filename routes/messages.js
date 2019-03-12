@@ -19,6 +19,8 @@ const router = new Router();
  **/
 router.get("/:id",
     ensureLoggedIn,
+    // Eventually need to add authorization for only users who 
+    // wrote or reveived the message.
     async function (req, res, next){
         let id = req.params.id;
         try {
