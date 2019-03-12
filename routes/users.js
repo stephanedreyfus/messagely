@@ -17,7 +17,7 @@ router.get("/",
     async function (req, res, next){
         try {
             let users = await User.all();
-            return res.json(users);
+            return res.json({ users });
         } catch (err) {
             return next(err);
         }
@@ -35,7 +35,7 @@ router.get("/:username",
         let username = req.params.username;
         try {
             let user = await User.getUser(username);
-            return res.json(user);
+            return res.json({ user });
         } catch (err) {
             return next(err);
         }
@@ -58,8 +58,8 @@ ensureCorrectUser,
 async function (req, res, next){
     let username = req.params.username;
     try {
-        let messages_from = await User.messagesFrom(username);
-        return res.json(messages_from);
+        let messages = await User.messagesFrom(username);
+        return res.json({ messages });
     } catch (err) {
         return next(err);
     }
@@ -80,8 +80,8 @@ ensureCorrectUser,
 async function (req, res, next){
     let username = req.params.username;
     try {
-        let messages_to = await User.messagesTo(username);
-        return res.json(messages_to);
+        let messages = await User.messagesTo(username);
+        return res.json({ messages });
     } catch (err) {
         return next(err);
     }
