@@ -119,15 +119,15 @@ class User {
       `SELECT 
         m.id,
         m.to_username,
-        f.first_name AS from_first_name,
-        f.last_name AS from_last_name,
-        f.phone AS from_phone,
+        t.first_name AS to_first_name,
+        t.last_name AS to_last_name,
+        t.phone AS to_phone,
         m.body,
         m.sent_at,
         m.read_at
       FROM messages AS m
-        JOIN users AS f ON m.from_username = f.username
-      WHERE f.username = $1`,
+        JOIN users AS t ON m.to_username = t.username
+      WHERE m.from_username = $1`,
       [username]);
 
     if (!result.rows[0]) {
@@ -150,15 +150,15 @@ class User {
       `SELECT 
         m.id,
         m.from_username,
-        t.first_name AS from_first_name,
-        t.last_name AS from_last_name,
-        t.phone AS from_phone,
+        f.first_name AS from_first_name,
+        f.last_name AS from_last_name,
+        f.phone AS from_phone,
         m.body,
         m.sent_at,
         m.read_at
       FROM messages AS m
-        JOIN users AS t ON m.to_username = t.username
-      WHERE t.username = $1`,
+        JOIN users AS f ON m.from_username = f.username
+      WHERE m.to_username = $1`,
       [username]);
 
     if (!result.rows) {
